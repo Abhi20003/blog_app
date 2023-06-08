@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostDetails extends StatefulWidget {
-  DocumentSnapshot snapshot;
+  DocumentSnapshot? snapshot;
   PostDetails({this.snapshot});
   @override
   _PostDetailsState createState() => _PostDetailsState();
@@ -12,6 +12,7 @@ class PostDetails extends StatefulWidget {
 class _PostDetailsState extends State<PostDetails> {
   @override
   Widget build(BuildContext context) {
+    dynamic data = widget.snapshot!.data();
     return Scaffold(
       appBar: AppBar(
         title: Text('Post Details'),
@@ -27,13 +28,13 @@ class _PostDetailsState extends State<PostDetails> {
               child: Row(
                 children: [
                   CircleAvatar(
-                    child: Text(widget.snapshot.data()['title'][0]),
+                    child: Text(['title'][0]),
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
                   ),
                   SizedBox(width: 10.0),
                   Text(
-                    widget.snapshot.data()['title'],
+                    data['title'],
                     style: TextStyle(fontSize: 22.0, color: Colors.green),
                   ),
                 ],
@@ -43,7 +44,7 @@ class _PostDetailsState extends State<PostDetails> {
             Container(
               margin: EdgeInsets.all(10.0),
               child: Text(
-                widget.snapshot.data()['content'],
+                data['content'],
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.justify,
               ),

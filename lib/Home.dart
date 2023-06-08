@@ -10,8 +10,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // ignore: cancel_subscriptions
-  StreamSubscription<QuerySnapshot> subscription;
-  List<DocumentSnapshot> snapshot;
+  StreamSubscription<QuerySnapshot>? subscription;
+  List<DocumentSnapshot>? snapshot;
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('BlogPost');
 
@@ -96,8 +96,9 @@ class _HomeState extends State<Home> {
               child: CircularProgressIndicator(),
             )
           : ListView.builder(
-              itemCount: snapshot.length,
+              itemCount: snapshot!.length,
               itemBuilder: (context, index) {
+                dynamic data = snapshot![index].data();
                 return Card(
                   elevation: 10.0,
                   margin: EdgeInsets.all(10.0),
@@ -107,7 +108,7 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         CircleAvatar(
-                          child: Text(snapshot[index].data()['title'][0]),
+                          child: Text(data['title'][0]),
                           backgroundColor: Colors.redAccent,
                           foregroundColor: Colors.white,
                         ),
@@ -119,7 +120,7 @@ class _HomeState extends State<Home> {
                             children: [
                               InkWell(
                                 child: Text(
-                                  snapshot[index].data()['title'],
+                                  data['title'],
                                   maxLines: 1,
                                   style: TextStyle(
                                     fontSize: 22.0,
@@ -128,12 +129,12 @@ class _HomeState extends State<Home> {
                                 ),
                                 onTap: () {
                                   // pass each and every index data
-                                  passData(snapshot[index]);
+                                  passData(snapshot![index]);
                                 },
                               ),
                               SizedBox(height: 5.0),
                               Text(
-                                snapshot[index].data()['content'],
+                                data['content'],
                                 maxLines: 2,
                               )
                             ],
